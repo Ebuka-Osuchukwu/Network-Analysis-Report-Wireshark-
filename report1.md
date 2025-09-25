@@ -51,23 +51,53 @@ Noted unusual packet patterns consistent with credential dumping.
 Compiled findings into a technical report with screenshots and explanations.
 Uploaded the report to GitHub to demonstrate technical and communication skills.
 
+# Example Commands Used
+- ip.addr == <IP Address>
+- ip.src == <SRC IP Address> and ip.dst == <DST IP Address>
+- tcp.port eq <Port #> or <Protocol Name>
+- udp.port eq <Port #> or <Protocol Name>
+
 ## Evidence
 <img width="1919" height="881" alt="Screenshot 2025-09-24 171852" src="https://github.com/user-attachments/assets/edda7f72-0628-43e4-9c9a-77675d0614ef" />
 <img width="1919" height="1010" alt="Screenshot 2025-09-24 134550" src="https://github.com/user-attachments/assets/57fc138c-0b89-4191-a13e-e5d86366b0c8" />
+<img width="1919" height="1010" alt="Screenshot 2025-09-24 133649" src="https://github.com/user-attachments/assets/9a085471-30b3-47d9-b446-aa444e202ed2" />
+
 
 ## Findings
-- Found HTTP basic auth on port 80 → credentials sent in cleartext.
-- DNS queries to suspicious domain `exfil.example.com` indicating possible data exfiltration.
+
+Protocol Visibility
+
+HTTP traffic showed cleartext data, including credentials in requests, demonstrating the risks of using unencrypted protocols.
+HTTPS traffic was encrypted, highlighting the importance of TLS for protecting sensitive information.
+
+Suspicious/Unusual Packets
+
+Identified abnormal DNS queries that resolved to unusual domains.
+Detected malformed or unexpected ICMP packets, suggesting possible probing or misconfigurations.
+
+Traffic Patterns
+
+Noted normal ARP and TCP handshake activity that matched expected behavior.
+Observed patterns in packet size and frequency that suggested automated scanning.
+
+Exploit Analysis (PCAP file)
+
+In the Active Directory exploit PCAP, traced attacker IP responsible for anomalous traffic.
+Found evidence of credential dump attempts, showing how sensitive data can be exfiltrated if not protected.
 
 ## Remediation
-- Enforce HTTPS and HSTS.
-- Block or monitor DNS requests to suspicious domains.
-- Implement network egress filtering.
+- Active Directory Exploit PCAP
+Issue: Evidence of credential dumping and attacker lateral movement.
+
+Remediation:
+Apply patches to address known AD vulnerabilities.
+Enforce strong password policies and multi-factor authentication.
+Monitor with endpoint detection tools (e.g., EDR) to flag anomalous access attempts.
 
 ## Lessons Learned
 - How to use Wireshark display filters to isolate suspicious flows.
 - Next: practice extracting files from pcap with `tshark`.
 
 ## References
-- TryHackMe room: [Room URL]
-- Wireshark filters cheat sheet
+- TryHackMe room: [[Room URL](https://tryhackme.com/room/wireshark?utm_source=cio&utm_medium=email&utm_campaign=practicereminder)]
+- Wireshark Filtering Documentation: https://www.wireshark.org/docs/wsug_html_chunked/ChWorkBuildDisplayFilterSection.html
